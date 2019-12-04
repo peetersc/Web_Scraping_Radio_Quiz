@@ -1,0 +1,399 @@
+# app.kv
+#:kivy 1.11.0
+#:import Toolbar kivymd.toolbar.Toolbar
+#:import MDNavigationDrawer kivymd.navigationdrawer.MDNavigationDrawer
+#:import NavigationLayout kivymd.navigationdrawer.NavigationLayout
+#:import NavigationDrawerDivider kivymd.navigationdrawer.NavigationDrawerDivider
+#:import NavigationDrawerToolbar kivymd.navigationdrawer.NavigationDrawerToolbar
+#:import NavigationDrawerSubheader kivymd.navigationdrawer.NavigationDrawerSubheader
+#:import MDCheckbox kivymd.selectioncontrols.MDCheckbox
+#:import MDSwitch kivymd.selectioncontrols.MDSwitch
+#:import MDTextField kivymd.textfields.MDTextField
+#:import MDThemePicker kivymd.theme_picker.MDThemePicker
+#:import labels labels
+
+<Navigation>:
+    NavigationLayout:
+        id: nav_layout
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            NavigationDrawerToolbar:
+                title: labels.NAVIGATION
+
+            NavigationDrawerIconButton:
+                icon: 'checkbox-blank-circle'
+                text: labels.TECHNICIAN
+                on_release: app.root.ids.scr_mngr.switch_to(Technician)
+
+            NavigationDrawerIconButton:
+                icon: 'checkbox-blank-circle'
+                text: labels.GENERAL
+                on_release: app.root.ids.scr_mngr.switch_to(General)
+
+            NavigationDrawerIconButton:
+                icon: 'checkbox-blank-circle'
+                text: labels.EXTRA
+                on_release: app.root.ids.scr_mngr.switch_to(Extra) 
+
+        BoxLayout:
+            orientation: 'vertical'
+            halign: "center"
+            
+            Toolbar:
+                id: toolbar
+                title: labels.APPLICATION_NAME
+                background_palette: 'Teal'
+                background_hue: '500'
+
+                left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
+                right_action_items: [['home', lambda x: app.root.ids.scr_mngr.switch_to(Home)]]
+
+<Screen_Manager>:
+    id: scr_mngr
+    name:"scr_mgr"
+    Navigation:
+    HomeScreen:
+    TechScreen:
+    GeneralScreen:
+    ExtraScreen:
+
+<HomeScreen>:
+    id: Home
+    name: 'Home'
+
+    BoxLayout:
+        orientation: "vertical"
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'data/radio.jpg'
+
+        Button:
+            text: "Technician"
+            size_hint: .5, .2
+            text_size: self.width, self.height
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: app.root.current = "Technician"
+
+        Button:
+            text: "General"
+            size_hint: .5, .2
+            text_size: self.width, self.height
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: app.root.current = "General"
+
+        Button:
+            text: "Extra"
+            size_hint: .5, .2
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: app.root.current = "Extra"
+
+        Button:
+            text: "Update Questions"
+            size_hint: .5, .2
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.updateQuestions()
+
+
+<TechScreen>:
+    id: Technician
+    name: 'Technician'
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            size_hint: None, None
+            size_hint: 1, .2
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+
+            Button:
+                text:'Back'
+                on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+                on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+                on_release: root.back(self)
+            Button:
+                text:'Home'
+                on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+                on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+                on_release: app.root.current = "Home"
+
+            Button:
+                text:'Skip'
+                on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+                on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+                on_release: root.skip(self)
+
+        MDLabel:
+            id: question
+            name: question
+            text: root.question
+            color: 1,1,1,1
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+
+        Button:
+            id: answer_1
+            name: "A"
+            text: root.answer_1
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+        
+        Button:
+            id: answer_2
+            name: "B"
+            text: root.answer_2
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+
+        Button:
+            id: answer_3
+            name: "C"
+            text: root.answer_3
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+
+        Button:
+            id: answer_4
+            name: "D"
+            text: root.answer_4
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+
+<GeneralScreen>:
+    id: General
+    name: 'General'
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            size_hint: None, None
+            size_hint: 1, .2
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+
+            Button:
+                text:'Back'
+                on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+                on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+                on_release: root.back(self)
+            Button:
+                text:'Home'
+                on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+                on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+                on_release: app.root.current = "Home"
+
+            Button:
+                text:'Skip'
+                on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+                on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+                on_release: root.skip(self)
+
+        MDLabel:
+            id: question
+            name: question
+            text: root.question
+            color: 1,1,1,1
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+
+        Button:
+            id: answer_1
+            name: "A"
+            text: root.answer_1
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+        
+        Button:
+            id: answer_2
+            name: "B"
+            text: root.answer_2
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+
+        Button:
+            id: answer_3
+            name: "C"
+            text: root.answer_3
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+
+        Button:
+            id: answer_4
+            name: "D"
+            text: root.answer_4
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+
+<ExtraScreen>:
+    id: Extra
+    name: 'Extra'
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            size_hint: None, None
+            size_hint: 1, .2
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+
+            Button:
+                text:'Back'
+                on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+                on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+                on_release: root.back(self)
+            Button:
+                text:'Home'
+                on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+                on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+                on_release: app.root.current = "Home"
+
+            Button:
+                text:'Skip'
+                on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+                on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+                on_release: root.skip(self)
+
+        MDLabel:
+            id: question
+            name: question
+            text: root.question
+            color: 1,1,1,1
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+
+        Button:
+            id: answer_1
+            name: "A"
+            text: root.answer_1
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+        
+        Button:
+            id: answer_2
+            name: "B"
+            text: root.answer_2
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+
+        Button:
+            id: answer_3
+            name: "C"
+            text: root.answer_3
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
+
+        Button:
+            id: answer_4
+            name: "D"
+            text: root.answer_4
+            size_hint: 1, .5
+            text_size: self.width, None
+            font_size: '20dp'
+            valign: 'middle'
+            halign: 'center'
+            on_press: self.background_color = (0.0, 0.0, 0.0, 1.0)
+            on_release: self.background_color = (1.0, 1.0, 1.0, 1.0)
+            on_release: root.check_answer(self)
