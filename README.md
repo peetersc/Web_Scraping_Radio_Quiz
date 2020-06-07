@@ -11,9 +11,6 @@
 Start Up:
 ![](Images/StartUp.png)
 
-Home Page:
-![](Images/Home.png)
-
 Sample Question:
 ![](Images/SampleQuestion.png)
 
