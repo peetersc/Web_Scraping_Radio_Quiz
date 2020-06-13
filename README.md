@@ -11,6 +11,9 @@
 Start Up:
 ![](Images/StartUp.png)
 
+Home Screen:
+![](Images/Home.png)
+
 Sample Question:
 ![](Images/SampleQuestion.png)
 
